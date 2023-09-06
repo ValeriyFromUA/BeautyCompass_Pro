@@ -1,13 +1,26 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView)
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.models import Company, Category, Review
 from core.permissions import CategoryPermission, CompanyDetailsPermission
-from core.serializers import CompanySerializer, CategorySerializer, ReviewSerializer, CompanyUpdateSerializer
+from core.serializers import (CompanySerializer, CategorySerializer, ReviewSerializer, CompanyUpdateSerializer,
+                              UserSerializer)
 from paginations import CompanyPagination, CategoryPagination, ReviewPagination
+
+
+class UserRegistrationAPIView(CreateAPIView):
+    serializer_class = UserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Create your views here.
@@ -15,6 +28,7 @@ class CreateCompanyAPIView(ListCreateAPIView):
     queryset = Company.objects.filter(is_verify=True)
     serializer_class = CompanySerializer
     pagination_class = CompanyPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -66,3 +80,11 @@ class ReviewAPIView(ListCreateAPIView):
         review = Review(user=user, company=company, text=text, rating=rating)
         review.save()
         return Response({'message': 'Відгук створено успішно'}, status=status.HTTP_201_CREATED)
+
+
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt_token')
+        response.status_code = status.HTTP_200_OK
+        return response

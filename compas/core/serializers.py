@@ -4,9 +4,20 @@ from .models import User, Category, Company, Review
 
 
 class UserSerializer(serializers.ModelSerializer):
+    extra_kwargs = {'password': {'write_only': True}}
+
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username', 'email', 'password')
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class CategorySerializer(serializers.ModelSerializer):
