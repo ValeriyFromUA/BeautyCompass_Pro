@@ -1,11 +1,11 @@
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from django.urls import path
 
-from core.views import (
-    CreateCompanyAPIView,
-    CategoryAPIView, UpdateCompanyAPIView, ReviewAPIView, UserRegistrationAPIView, LogoutView,
-)
-from django.urls import path, include, re_path
-from rest_framework import routers
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
+
+from core.views import (CategoryAPIView, CreateCompanyAPIView,
+                        ReviewAPIView, UpdateCompanyAPIView,
+                        UserRegistrationAPIView)
 
 urlpatterns = [
     path("companies/", CreateCompanyAPIView.as_view(), name="companies"),

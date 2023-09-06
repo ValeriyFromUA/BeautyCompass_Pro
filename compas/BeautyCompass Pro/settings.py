@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
-from constants import RENDER_CLASSES, PAGE_SIZE, ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME, SECRET
+from constants import (ACCESS_TOKEN_LIFETIME, PAGE_SIZE,
+                       REFRESH_TOKEN_LIFETIME, RENDER_CLASSES, SECRET)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

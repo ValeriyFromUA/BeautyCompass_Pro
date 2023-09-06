@@ -1,7 +1,7 @@
-import os
 import csv
-import django
+import os
 
+import django
 from django.core.management.base import BaseCommand
 
 from constants import CATEGORIES

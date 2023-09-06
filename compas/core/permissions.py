@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAdminUser, BasePermission
+from rest_framework.permissions import BasePermission, IsAdminUser
 
 
 class CategoryPermission(BasePermission):

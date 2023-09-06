@@ -1,15 +1,16 @@
-from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView)
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.generics import (CreateAPIView, ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import Company, Category, Review
+from core.models import Category, Company, Review
 from core.permissions import CategoryPermission, CompanyDetailsPermission
-from core.serializers import (CompanySerializer, CategorySerializer, ReviewSerializer, CompanyUpdateSerializer,
+from core.serializers import (CategorySerializer, CompanySerializer,
+                              CompanyUpdateSerializer, ReviewSerializer,
                               UserSerializer)
-from paginations import CompanyPagination, CategoryPagination, ReviewPagination
+from paginations import CategoryPagination, CompanyPagination, ReviewPagination
 
 
 class UserRegistrationAPIView(CreateAPIView):
